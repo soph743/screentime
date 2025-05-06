@@ -1,11 +1,29 @@
 import matplotlib.pyplot as plt
 
+class bcolors:
+    HEADER = '\033[95m'
+    YELLOW = '\033[33m'
+    GREEN = '\033[92m'
+    ENDC = '\033[0m'
+    BOLD = '\033[1m'
+    UNDERLINE = '\033[4m'
+    RED = '\033[31m'
+
 def main():
+    national_avg = 5.26
     print("enter your daily average screen time")
     current_avg = float(input())
-    print("enter your goal screen time")
+
+        if current_avg < national_avg:
+        print(bcolors.GREEN + "your average is " + str(round(national_avg-current_avg, 2)) + " hours less than the national average" + bcolors.ENDC)
+    elif current_avg > national_avg:
+        print(bcolors.RED + "your average is " + str(round(current_avg-national_avg, 2)) + " hours greater than the national average" + bcolors.ENDC)
+    else:
+        print(bcolors.YELLOW + "your average is equal to the national average" + bcolors.ENDC)
+
+    print(bcolors.BOLD + "enter your goal screen time" + bcolors.ENDC)
     goal_avg = float(input())
-    print("enter the days until you reach your goal screen time")
+    print(bcolors.BOLD + "enter the days until you reach your goal screen time" + bcolors.ENDC)
     days = int(input())
 
     x_values = []
@@ -21,7 +39,7 @@ def main():
         y_values.append(-a*(i**2) + current_avg)
 
 
-    print("screentime reduction schedule: ")
+    print(bcolors.UNDERLINE + bcolors.BOLD + "screentime reduction schedule: " + bcolors.ENDC)
     for i in range(1, len(x_values)):
         result = '{0:02.0f}:{1:02.0f}'.format(*divmod(y_values[i] * 60, 60))
         print("day " + str(i-1) + " allotted screen time: ")
