@@ -1,78 +1,41 @@
-import sys
-
+import matplotlib.pyplot as plt
 
 def main():
-    """
-    reads current and goal screen times (floats) from standard input, stores values in variables, returns input
-    values to the user, and finally returns the screen time reduction plan.
-    """
+    print("enter your daily average screen time")
+    current_avg = float(input())
+    print("enter your goal screen time")
+    goal_avg = float(input())
+    print("enter the days until you reach your goal screen time")
+    days = int(input())
 
-    print('input your average daily screen time (rounded to nearest hour)')
-    daily_avg = sys.stdin.readline()
-    print('inputted value: ' + daily_avg)
-    print('what is your goal screen time?')
-    goal = sys.stdin.readline()
-    print('inputted value: ' + goal)
-    print('generating plan to decrease screentime by ', end="")
-    print(float(daily_avg) - float(goal), end=""),
-    print(' hours...')
-    print(reductionPlan(float(daily_avg), float(goal)))
+    x_values = []
+    y_values = []
 
+    a = -(goal_avg/(days**2)) + (current_avg/(days**2))
 
-def reductionPlan(daily_avg, goal):
-    """
-    based on current daily average, a screen time reduction plan of length 'duration' is computed.
-    """
-
-    if daily_avg <= 2:
-        duration = 7
-    elif 4 >= daily_avg > 2:
-        duration = 14
-    elif 8 >= daily_avg > 4:
-        duration = 21
-    elif 12 >= daily_avg > 8:
-        duration = 28
-    elif 16 >= daily_avg > 12:
-        duration = 35
-    elif 20 >= daily_avg > 16:
-        duration = 42
-    elif 24 >= daily_avg > 16:
-        duration = 49
-    else:
-        return ('please input daily average as an integer or float between 0 and 24, and goal that is smaller than '
-                'daily average')
-        # returns error message if user input was invalid.
-
-    plan = []
-
-    daily_reduction = (daily_avg - goal) / (duration - 1)
-    # computes daily reduction as the difference between daily average and goal, divided by the duration - 1.
-
-    for day in range(1, duration + 1):
-        if day == duration:
-            daily_avg = goal
-        # when the last day in reduction plan is reached, daily average should be equal to goal screen time.
-
-        else:
-            daily_avg = daily_avg - daily_reduction
-        # otherwise, decrement the daily average by the daily reduction.
-
-        final = '{0:02.0f}:{1:02.0f}'.format(*divmod(round(daily_avg, 2) * 60, 60))
-        # return value of new daily average in time (hours:minutes) format.
-
-        plan.append(final)
-        # add the new daily average to reduction plan
-
-    return plan
-    # goal screen time has been reached, so return the full reduction plan.
+    for i in range(days):
+        if i == 0:
+            x_values.append(0)
+            y_values.append(current_avg)
+        x_values.append(i)
+        y_values.append(-a*(i**2) + current_avg)
 
 
-if __name__ == "__main__":
+    print("screentime reduction schedule: ")
+    for i in range(1, len(x_values)):
+        result = '{0:02.0f}:{1:02.0f}'.format(*divmod(y_values[i] * 60, 60))
+        print("day " + str(i-1) + " allotted screen time: ")
+        print(result)
+    print("day " + str(days) + ": ")
+    print(str(goal_avg))
+
+    plt.plot(x_values, y_values)
+
+    plt.xlabel("screen time (hours)")
+    plt.ylabel("daily screen time")
+    plt.title("Screen Time Reduction Plan")
+
+    plt.show()
+
+if __name__ == '__main__':
     main()
-
-
-
-
-
-
-
