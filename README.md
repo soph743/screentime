@@ -58,6 +58,7 @@ day 10:
 2.5
 ```
 A line graph will also be displayed, showing your screen time trend over time.
+![Alt text for image](Figure_1.png)
 
 **Potential Future Improvements**
 - Add input validation and error handling 
